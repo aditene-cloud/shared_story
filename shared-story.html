@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>סיפור משותף</title>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;800;900&family=Secular+One&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Rubik',sans-serif;background:#0a0a1a;color:#f5f5f5;min-height:100vh;min-height:100dvh;-webkit-user-select:none;user-select:none;overflow-x:hidden}
+.app{max-width:520px;margin:0 auto;padding:12px;text-align:center}
+h1{font-family:'Secular One',sans-serif;font-size:clamp(1.8rem,6vw,2.4rem);margin-bottom:2px}
+.h1a{background:linear-gradient(135deg,#48dbfb,#1dd1a1,#feca57);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sub{color:#8888aa;font-size:.8rem;margin-bottom:14px}
+
+/* Config */
+.opt-section{margin:14px 0}
+.opt-label{font-size:.85rem;color:#ccc;margin-bottom:8px;font-weight:600}
+.opt-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.opt-btn{font-family:'Rubik',sans-serif;font-size:.85rem;font-weight:600;background:rgba(255,255,255,.08);color:#8888aa;border:2px solid rgba(255,255,255,.08);border-radius:11px;padding:8px 16px;cursor:pointer;transition:.2s;min-width:60px}
+.opt-btn:hover{background:rgba(255,255,255,.14);color:#f5f5f5}
+.opt-btn.act{background:rgba(72,219,251,.15);color:#48dbfb;border-color:#48dbfb}
+
+/* Word box */
+.word-box{margin:14px auto;padding:16px 14px;background:linear-gradient(145deg,#1e1e3a,#16162b);border:2px solid rgba(72,219,251,.15);border-radius:18px;box-shadow:0 6px 30px rgba(0,0,0,.4)}
+.word-label{font-size:.72rem;color:#8888aa;margin-bottom:4px}
+.word-text{font-family:'Secular One',sans-serif;font-size:clamp(1.8rem,7vw,2.8rem);background:linear-gradient(135deg,#48dbfb,#1dd1a1,#feca57);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+
+/* Round info */
+.round-bar{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0;font-size:.85rem;color:#8888aa}
+.round-num{font-family:'Secular One',sans-serif;font-size:1rem;color:#48dbfb}
+.player-name{font-family:'Secular One',sans-serif;font-size:clamp(.95rem,3vw,1.15rem);color:#1dd1a1;margin-bottom:6px}
+
+/* Last sentence */
+.last-sentence-box{margin:10px auto;padding:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;min-height:50px;text-align:right}
+.last-sentence-label{font-size:.7rem;color:#8888aa;margin-bottom:4px;text-align:center}
+.last-sentence-text{font-size:.95rem;color:#ddd;line-height:1.6;direction:rtl}
+.last-sentence-text em{color:#48dbfb;font-style:normal;font-weight:600}
+
+/* Input area */
+.input-area{margin:12px 0}
+.input-area textarea{
+  width:100%;min-height:70px;padding:12px;
+  background:rgba(255,255,255,.06);border:2px solid rgba(72,219,251,.2);
+  border-radius:14px;color:#f5f5f5;font-family:'Rubik',sans-serif;font-size:.95rem;
+  resize:vertical;direction:rtl;outline:none;transition:.2s;
+}
+.input-area textarea:focus{border-color:#48dbfb;box-shadow:0 0 16px rgba(72,219,251,.15)}
+.input-area textarea::placeholder{color:#666}
+
+/* Buttons */
+.btn-row{display:flex;gap:8px;justify-content:center;margin:10px 0;flex-wrap:wrap}
+.btn{font-family:'Rubik',sans-serif;font-weight:700;border:none;border-radius:12px;cursor:pointer;transition:.2s}
+.btn:active{transform:scale(.93)}
+.btn-big{font-size:1rem;padding:11px 24px}
+.btn-big:hover{transform:translateY(-2px)}
+.btn-go{background:linear-gradient(135deg,#1dd1a1,#10ac84);color:#fff;box-shadow:0 4px 16px rgba(29,209,161,.25)}
+.btn-next{background:linear-gradient(135deg,#feca57,#ff9f43);color:#1a1a2e;box-shadow:0 4px 16px rgba(254,202,87,.25)}
+.btn-start{background:linear-gradient(135deg,#48dbfb,#0abde3);color:#1a1a2e;box-shadow:0 4px 16px rgba(72,219,251,.25)}
+.btn-reveal{background:linear-gradient(135deg,#f368e0,#ff6b6b);color:#fff;box-shadow:0 4px 16px rgba(243,104,224,.25)}
+.btn-stop{font-size:.8rem;padding:7px 14px;background:rgba(255,107,107,.15);color:#ff6b6b;border:1px solid rgba(255,107,107,.25);border-radius:10px;margin-top:6px}
+.btn-stop:hover{background:rgba(255,107,107,.25)}
+.btn-word{font-size:.85rem;padding:8px 16px;background:rgba(255,255,255,.08);color:#8888aa;border:1px solid rgba(255,255,255,.08);border-radius:10px}
+.btn-word:hover{background:rgba(255,255,255,.14);color:#f5f5f5}
+
+/* Full story */
+.story-box{margin:14px auto;padding:18px 16px;background:linear-gradient(145deg,#1e1e3a,#16162b);border:2px solid rgba(29,209,161,.2);border-radius:18px;box-shadow:0 6px 30px rgba(0,0,0,.4);text-align:right;max-height:60vh;overflow-y:auto}
+.story-title{font-family:'Secular One',sans-serif;font-size:1.2rem;color:#1dd1a1;margin-bottom:10px;text-align:center}
+.story-line{font-size:.92rem;color:#ddd;line-height:1.8;margin-bottom:4px;padding:6px 8px;border-radius:8px;transition:.2s}
+.story-line:nth-child(odd){background:rgba(255,255,255,.02)}
+.story-line .s-num{font-family:'Secular One',sans-serif;color:#48dbfb;font-size:.75rem;margin-left:6px}
+.story-line .s-player{color:#1dd1a1;font-size:.72rem;margin-left:4px}
+.story-line .s-word{color:#feca57;font-weight:600}
+
+/* Bottom */
+.brow{display:flex;gap:8px;justify-content:center;margin-top:10px}
+.bbtn{font-family:'Rubik',sans-serif;font-size:.76rem;font-weight:600;background:rgba(255,255,255,.06);color:#8888aa;border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:5px 12px;cursor:pointer;transition:.2s}
+.bbtn:hover{background:rgba(255,255,255,.1);color:#f5f5f5}
+
+/* Players setup */
+.players-input{margin:10px 0}
+.players-input input{
+  width:100%;padding:10px;margin:4px 0;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  border-radius:10px;color:#f5f5f5;font-family:'Rubik',sans-serif;font-size:.9rem;
+  direction:rtl;outline:none;transition:.2s;
+}
+.players-input input:focus{border-color:#48dbfb}
+.players-input input::placeholder{color:#555}
+.add-player{font-size:.8rem;padding:6px 14px;background:rgba(72,219,251,.15);color:#48dbfb;border:1px solid rgba(72,219,251,.3);border-radius:9px;cursor:pointer;margin-top:4px}
+.add-player:hover{background:rgba(72,219,251,.25)}
+.player-tag{display:inline-block;background:rgba(29,209,161,.12);color:#1dd1a1;font-size:.8rem;font-weight:600;padding:4px 10px;border-radius:8px;margin:3px;border:1px solid rgba(29,209,161,.2)}
+.player-tag .x{cursor:pointer;margin-right:6px;color:#ff6b6b;font-weight:800}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <h1><span class="h1a">📖 סיפור משותף</span></h1>
+  <p class="sub">כל אחד מוסיף משפט לסיפור — בסוף מתגלה הסיפור המלא!</p>
+
+  <!-- PHASE: Config -->
+  <div id="phConfig">
+    <div class="opt-section">
+      <div class="opt-label">👥 שמות המשתתפים</div>
+      <div class="players-input" id="playersInput">
+        <input type="text" id="playerField" placeholder="הקלידו שם ולחצו הוסף..." onkeydown="if(event.key==='Enter')addPlayer()">
+        <button class="add-player" onclick="addPlayer()">+ הוסף משתתף</button>
+      </div>
+      <div id="playerTags" style="margin-top:8px"></div>
+    </div>
+
+    <div class="opt-section">
+      <div class="opt-label">🔄 מספר סבבים</div>
+      <div class="opt-row">
+        <button class="opt-btn" onclick="pickR(1,this)">1</button>
+        <button class="opt-btn act" onclick="pickR(2,this)">2</button>
+        <button class="opt-btn" onclick="pickR(3,this)">3</button>
+      </div>
+      <div style="font-size:.7rem;color:#666;margin-top:4px">(כל משתתף יוסיף משפט פעם בסבב)</div>
+    </div>
+
+    <div class="btn-row" style="margin-top:18px">
+      <button class="btn btn-big btn-start" onclick="beginGame()">📖 יאללה מתחילים!</button>
+    </div>
+  </div>
+
+  <!-- PHASE: Turn -->
+  <div id="phTurn" class="hidden">
+    <div class="round-bar">
+      <span>סבב <span class="round-num" id="roundNum">1</span></span>
+      <span>·</span>
+      <span>משפט <span class="round-num" id="sentNum">1</span> מתוך <span id="sentTotal">0</span></span>
+    </div>
+    <div class="player-name" id="curPlayer">תור: ...</div>
+
+    <div class="last-sentence-box" id="lastBox">
+      <div class="last-sentence-label">המשפט הקודם</div>
+      <div class="last-sentence-text" id="lastText"><em>אתם פותחים את הסיפור!</em></div>
+    </div>
+
+    <div class="input-area">
+      <textarea id="sentenceInput" placeholder="הקלידו את המשפט שנאמר..."></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-big btn-go" onclick="submitSentence()">✓ הבא</button>
+    </div>
+    <button class="btn btn-stop" onclick="endEarly()">⏹ סיים סיפור</button>
+  </div>
+
+  <!-- PHASE: Reveal -->
+  <div id="phReveal" class="hidden">
+    <div class="story-box" id="storyBox">
+      <div class="story-title">📖 הסיפור המלא</div>
+      <div id="storyContent"></div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-big btn-start" onclick="fullReset()">משחק חדש</button>
+      <button class="btn btn-big btn-reveal" onclick="copyStory()">📋 העתק סיפור</button>
+    </div>
+  </div>
+
+  <div class="brow"><button class="bbtn" onclick="fullReset()">משחק חדש</button></div>
+</div>
+
+<script>
+const words=["אהבה","לב","שמש","ירח","כוכב","גשם","רוח","ים","לילה","בוקר","חלום","דרך","בית","עיניים","ילד","אמא","אבא","חבר","שיר","מוזיקה","ריקוד","אור","חושך","פרח","עולם","שמיים","מים","אש","ארץ","זמן","נשמה","גן","עץ","ציפור","שלום","חופש","חיים","יום","ערב","צבע","זהב","רחוב","עיר","הר","נהר","שמחה","דמעה","חיוך","כאב","תקווה","מסע","רכבת","ילדות","זיכרון","סיפור","חופשה","תמונה","צל","כדור","ענן","קשת","שלג","קיץ","חורף","שבת","גלידה","קפה","כלב","חתול","פרפר","אריה","מלך","נסיכה","גיבור","קול","שקט","מנגינה","משפחה","מתנה","סוד","כנף","גשר","מפתח","חלון","דלת","מראה","כובע","ספינה","אוצר","מפה","ארמון","מערה","כוח","קסם","חכמה","אומץ","פחד","הרפתקה","גבול","התחלה","סוף"];
+
+function sh(a){for(let i=a.length-1;i>0;i--){const j=0|Math.random()*(i+1);[a[i],a[j]]=[a[j],a[i]]}return a}
+
+let pool=[...words];sh(pool);
+let wi=0, players=[], rounds=2, curRound=0, curTurn=0, sentences=[], curWord='';
+
+function showPh(id){['phConfig','phTurn','phReveal'].forEach(p=>document.getElementById(p).classList.add('hidden'));document.getElementById(id).classList.remove('hidden')}
+
+// ---- CONFIG ----
+function addPlayer(){
+  const f=document.getElementById('playerField');
+  const name=f.value.trim();
+  if(!name)return;
+  players.push(name);
+  f.value='';
+  renderTags();
+  f.focus();
+}
+function removePlayer(i){
+  players.splice(i,1);
+  renderTags();
+}
+function renderTags(){
+  const c=document.getElementById('playerTags');
+  c.innerHTML=players.map((p,i)=>`<span class="player-tag"><span class="x" onclick="removePlayer(${i})">✕</span>${p}</span>`).join('');
+}
+function pickR(n,el){rounds=n;el.parentElement.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('act'));el.classList.add('act')}
+
+function beginGame(){
+  if(players.length<2){alert('צריך לפחות 2 משתתפים!');return}
+  sentences=[];curRound=0;curTurn=0;wi=0;sh(pool);
+  startTurn();
+}
+
+// ---- TURN ----
+function totalSentences(){return players.length*rounds}
+function globalTurn(){return curRound*players.length+curTurn}
+
+function startTurn(){
+  const gt=globalTurn();
+  document.getElementById('roundNum').textContent=curRound+1;
+  document.getElementById('sentNum').textContent=gt+1;
+  document.getElementById('sentTotal').textContent=totalSentences();
+  document.getElementById('curPlayer').textContent=`תור: ${players[curTurn]}`;
+  document.getElementById('sentenceInput').value='';
+
+  if(sentences.length>0){
+    const last=sentences[sentences.length-1];
+    document.getElementById('lastText').innerHTML=`"${last.text}"`;
+  }else{
+    document.getElementById('lastText').innerHTML='<em>אתם פותחים את הסיפור!</em>';
+  }
+  showPh('phTurn');
+
+  setTimeout(()=>document.getElementById('sentenceInput').focus(),100);
+}
+
+function submitSentence(){
+  const text=document.getElementById('sentenceInput').value.trim();
+  if(!text){alert('צריך להקליד משפט!');return}
+  sentences.push({player:players[curTurn],text:text,round:curRound+1});
+
+  curTurn++;
+  if(curTurn>=players.length){curTurn=0;curRound++}
+
+  if(curRound>=rounds){revealStory()}
+  else{startTurn()}
+}
+
+function endEarly(){
+  if(sentences.length===0){alert('עדיין אין משפטים!');return}
+  revealStory();
+}
+
+// ---- REVEAL ----
+function revealStory(){
+  const c=document.getElementById('storyContent');
+  c.innerHTML='';
+  sentences.forEach((s,i)=>{
+    const div=document.createElement('div');
+    div.className='story-line';
+    div.innerHTML=`<span class="s-num">${i+1}.</span><span class="s-player">${s.player}:</span> ${s.text}`;
+    div.style.opacity='0';div.style.transform='translateY(10px)';
+    c.appendChild(div);
+    setTimeout(()=>{div.style.transition='all .4s';div.style.opacity='1';div.style.transform='translateY(0)'},150*(i+1));
+  });
+  showPh('phReveal');
+}
+
+function copyStory(){
+  const text=sentences.map((s,i)=>`${i+1}. ${s.player}: ${s.text}`).join('\n');
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=event.target;btn.textContent='✓ הועתק!';
+    setTimeout(()=>btn.textContent='📋 העתק סיפור',2000);
+  }).catch(()=>alert('לא הצלחתי להעתיק — נסו ידנית'));
+}
+
+function fullReset(){
+  players=[];sentences=[];curRound=0;curTurn=0;wi=0;sh(pool);
+  document.getElementById('playerTags').innerHTML='';
+  showPh('phConfig');
+}
+</script>
+</body>
+</html>
